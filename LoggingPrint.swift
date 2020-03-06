@@ -3,6 +3,7 @@
 //
 
 import Foundation
+import os
 
 /// Prints the filename, function name, line number and textual representation of `object` and a newline character into the standard output if the build setting for "Active Complilation Conditions" (SWIFT_ACTIVE_COMPILATION_CONDITIONS) defines `DEBUG`.
 ///
@@ -23,7 +24,15 @@ public func loggingPrint<T>(_ object: @autoclosure () -> T, _ file: String = #fi
         let queue = Thread.isMainThread ? "UI" : "BG"
         
         print("<\(queue)> \(fileURL) \(function)[\(line)]: " + String(reflecting: value))
+    #else
+        #if !NO_RELEASE_OS_LOG
+            os_log("%{public}s",
+                   log: OSLog.loggingPrintCategory,
+                   type: .info,
+                   String(reflecting: object()))
+        #endif
     #endif
+    
 }
 
 
