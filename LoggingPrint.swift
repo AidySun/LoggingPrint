@@ -23,7 +23,7 @@ public func loggingPrint<T>(_ object: @autoclosure () -> T, _ file: String = #fi
         let fileURL = NSURL(string: file)?.lastPathComponent ?? "Unknown file"
         let queue = Thread.isMainThread ? "UI" : "BG"
         
-        print("<\(queue)> \(fileURL) \(function)[\(line)]: " + String(reflecting: value))
+        print("<\(queue)> \(fileURL) \(function)[line: \(line)]: " + String(reflecting: value))
     #else
         #if !NO_RELEASE_OS_LOG
             os_log("%{public}s",
