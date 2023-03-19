@@ -22,7 +22,7 @@ public func loggingPrint<T>(_ object: @autoclosure () -> T, _ file: String = #fi
         let value = object()
         let fileURL = NSURL(string: file)?.lastPathComponent ?? "Unknown file"
         let queue = Thread.isMainThread ? "UI" : "BG"
-        
+
         print("<\(queue)> \(fileURL) \(function)[line: \(line)]: " + String(reflecting: value))
     #else
         #if !NO_RELEASE_OS_LOG
@@ -32,7 +32,7 @@ public func loggingPrint<T>(_ object: @autoclosure () -> T, _ file: String = #fi
                    String(reflecting: object()))
         #endif
     #endif
-    
+
 }
 
 
@@ -52,7 +52,7 @@ public func loggingDump<T>(_ object: @autoclosure () -> T, label: String? = nil,
         let value = object()
         let fileURL = NSURL(string: file)?.lastPathComponent ?? "Unknown file"
         let queue = Thread.isMainThread ? "UI" : "BG"
-        
+
         print("--------")
         print("<\(queue)> \(fileURL) \(function):[\(line)] ")
         label.flatMap{ print($0) }
