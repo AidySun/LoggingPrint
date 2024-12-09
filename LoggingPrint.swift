@@ -20,10 +20,16 @@ import os
 public func loggingPrint<T>(_ object: @autoclosure () -> T, _ file: String = #file, _ function: String = #function, _ line: Int = #line) {
     #if DEBUG
         let value = object()
-        let fileURL = NSURL(string: file)?.lastPathComponent ?? "Unknown file"
+        let fileName = (file as NSString).lastPathComponent
         let queue = Thread.isMainThread ? "UI" : "BG"
+        
+        // 获取当前时间
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "HH:mm:ss"
+        let currentTime = dateFormatter.string(from: Date())
 
-        print("<\(queue)> \(fileURL) \(function)[line: \(line)]: " + String(reflecting: value))
+        // 打印日志信息
+        print("<\(queue)> \(currentTime) \(fileName)::\(function) [@\(line)]: " + String(reflecting: value))
     #else
         #if !NO_RELEASE_OS_LOG
             os_log("%{public}s",
